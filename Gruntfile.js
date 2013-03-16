@@ -5,8 +5,8 @@ module.exports = function (grunt) {
         watch: {
             project: {
                 files: [
-                    'modules/*/*',
-                    'modules/*'
+                    'modules/*/*.js',
+                    'modules/*/*.css'
                 ],
                 tasks: ['concat:js', 'concat:css']
             }
