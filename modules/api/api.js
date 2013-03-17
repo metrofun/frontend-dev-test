@@ -11,12 +11,17 @@ define('api', function () {
          * @param {String} params.success Success callback
          */
         get: function (params) {
-            var xhr = new XMLHttpRequest();
-            xhr.open(params.method || 'GET', BASE + params.resource, true);
+            var xhr = new XMLHttpRequest(),
+                url = BASE + params.resource;
+
+            if (params.query) {
+                url += '?' + params.query;
+            }
+            xhr.open(params.method || 'GET', url, true);
             xhr.onload = function () {
                 params.success(JSON.parse(xhr.responseText));
             };
-            xhr.send(params.query);
+            xhr.send();
         }
     };
 });

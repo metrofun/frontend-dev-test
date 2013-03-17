@@ -1,7 +1,7 @@
 (function (global) {
     var moduleDefinitions = {};
 
-    /*
+    /**
      * @param {String} module name
      *
      * @return {*} Module instance
@@ -16,7 +16,7 @@
             })
         );
     }
-    /*
+    /**
      * @params {Array} [dependences] Required module names
      * @params {String} name Module name
      * @params {Function} callback Module factory, Will be executed when all dependences ready
@@ -31,12 +31,9 @@
             factory: callback,
             dependences: dependences
         };
-        setTimeout(function () {
-            createModule(name);
-        });
     };
 
-    /*
+    /**
      * @params {Array} dependences Required module names
      * @params {Function} callback Will be executed when all dependences
      */

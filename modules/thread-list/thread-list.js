@@ -1,19 +1,19 @@
 /*jshint white: false */
 define(['api', 'post'], 'thread-list', function (api, post) {
-    var ThreadList = function (parentNode) {
-        this.parentNode = parentNode;
+    var ThreadList = function () {
         this.getData();
     };
     ThreadList.prototype = {
         onsuccess: function (response) {
-            var htmlTokens = [];
+            var htmlTokens;
 
             if (response && response.threads) {
-                response.threads.map(function (thread) {
-                    htmlTokens.push(this.buildThreadItemHTML(thread));
+                htmlTokens = response.threads.map(function (thread) {
+                    return this.buildThreadItemHTML(thread);
                 }.bind(this));
             }
-            this.parentNode.innerHTML = htmlTokens.join('');
+
+            document.querySelector('.app__content').innerHTML = htmlTokens.join('');
         },
         getData: function () {
             api.get({
