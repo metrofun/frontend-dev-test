@@ -1,5 +1,5 @@
 /*jshint white: false */
-define(['common', 'user', 'api'], 'reply-form', function (common, user, api) {
+define(['common', 'user'], 'reply-form', function (common, user) {
     var monthes = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -35,37 +35,11 @@ define(['common', 'user', 'api'], 'reply-form', function (common, user, api) {
         ].join('');
         return dateString;
     }
-    function handleSubmit() {
-        document.body.addEventListener('submit', function (e) {
-            var target = e.target, message;
-
-            if (target.className === 'reply-form') {
-                createPost(target.elements[0].value);
-                e.preventDefault();
-            }
-        }, true);
-    }
-    function createPost(message) {
-        api.get({
-            method: 'POST',
-            resource: '/post/create',
-            query: 'author=zzz&message=123&threadid=903',
-            // query: [
-                // 'author=' + encodeURIComponent(user.fullName),
-                // 'message=' + encodeURIComponent(message),
-                // 'threadid=' + Math.floor(Math.random()*999)
-            // ].join('&'),
-            success: function () {
-                console.log(arguments);
-            }
-        });
-    }
-    handleSubmit();
     return {
         buildHTML: function () {
             return [
                 '<form class="reply-form" id="reply-form">',
-                    '<textarea placeholder="Reply text" class="reply-form__textarea">',
+                    '<textarea required = "required" placeholder="Reply text" class="reply-form__textarea">',
                     '</textarea>',
                     '<div class="reply-form__pull-left">',
                         '<div class="reply-form__date">Current Time: ', getCurrentTimeString(), '</div>',
@@ -79,6 +53,22 @@ define(['common', 'user', 'api'], 'reply-form', function (common, user, api) {
                     '</button>',
                 '</form>'
             ].join('');
+        },
+        /*
+         * Create form element and adds listener for submit event
+         * @param {Function} onsubmit Handler to call on submit with message argument
+         *
+         * @return {Object}
+         */
+        createFormElement: function (onsubmit) {
+            var formElement = common.createHTMLElement(this.buildHTML());
+
+            formElement.addEventListener('submit', function (e) {
+                onsubmit.call(window, e.target.elements[0].value);
+                e.preventDefault();
+            }, true);
+
+            return formElement;
         }
     };
 });

@@ -1,5 +1,15 @@
-define('api', function () {
+define(['error'], 'api', function (error) {
     var BASE = 'http://blog.gface.com/frontend-dev-test';
+    function errorhandler() {
+        error.show();
+        hideLoader();
+    }
+    function showLoader() {
+        document.body.style.cursor = 'progress';
+    }
+    function hideLoader() {
+        document.body.style.cursor = 'default';
+    }
     return {
         /*
          * Requests REST API
@@ -19,8 +29,20 @@ define('api', function () {
             }
             xhr.open(params.method || 'GET', url, true);
             xhr.onload = function () {
-                params.success(JSON.parse(xhr.responseText));
+                hideLoader();
+                var response;
+                try {
+                    response = JSON.parse(xhr.responseText);
+                } catch (e) {
+                    return errorhandler();
+                }
+                if (xhr.status === 200 && response && response.status === 'ok') {
+                    params.success(response);
+                } else {
+                    errorhandler();
+                }
             };
+            xhr.onerror = errorhandler;
             if (params.method === 'POST') {
                 xhr.setRequestHeader(
                     "Content-type",
@@ -30,6 +52,7 @@ define('api', function () {
             } else {
                 xhr.send();
             }
+            showLoader();
         }
     };
 });

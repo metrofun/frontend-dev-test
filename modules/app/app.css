@@ -1,5 +1,7 @@
-.app {
+body {
     font: 12px arial,sans-serif;
+}
+.app {
     margin: 1.25em;
     border: 2px solid #76c600;
     border-radius: 0.5em;
@@ -9,6 +11,35 @@
 .app__header {
     height: 3.08em;
     border-bottom: 1px solid #bec5cc;
+}
+@-webkit-keyframes rotate {
+    to {
+        -webkit-transform: rotate(0deg);
+    }
+    from {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@-moz-keyframes rotate {
+    to {
+        -moz-transform: rotate(0deg);
+    }
+    from {
+        -moz-transform: rotate(360deg);
+    }
+}
+.app__loading {
+    color: #66b500;
+    font-size: 100px;
+    text-align: center;
+    -webkit-animation-name:             rotate;
+    -webkit-animation-duration:         1s;
+    -webkit-animation-iteration-count:  infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name:             rotate;
+    -moz-animation-duration:         1s;
+    -moz-animation-iteration-count:  infinite;
+    -moz-animation-timing-function: linear;
 }
 .app__footer {
     height: 2.5em;

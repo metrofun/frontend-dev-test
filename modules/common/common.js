@@ -8,14 +8,19 @@ define('common', function () {
          * @return {DocumentFragment)}
          */
         createHTMLElement: function (html) {
-            var documentFragment = document.createDocumentFragment(),
-                divNode = document.createElement('div');
+            var divNode = document.createElement('div'),
+                documentFragment;
 
             divNode.insertAdjacentHTML('afterbegin', html);
-            while (divNode.firstChild) {
-                documentFragment.appendChild(divNode.firstChild);
+            if (divNode.childElementCount > 1) {
+                documentFragment = document.createDocumentFragment();
+                while (divNode.firstChild) {
+                    documentFragment.appendChild(divNode.firstChild);
+                }
+                return documentFragment;
+            } else {
+                return divNode.firstChild;
             }
-            return documentFragment;
         }
     };
 });
