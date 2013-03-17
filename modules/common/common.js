@@ -1,6 +1,8 @@
 define('common', function () {
     return {
         /*
+         * Creates document fragment from specified html
+         *
          * @param {String} html
          *
          * @return {DocumentFragment)}

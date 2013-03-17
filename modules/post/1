@@ -1,0 +1,25 @@
+/*jshint white: false */
+define('post', function () {
+    return {
+        /*
+         * Returns HTML representation for Post
+         *
+         * @param {Object} data
+         * @param {String} data.author
+         * @param {String} [data.title]
+         * @param {String} data.text
+         * @param {String} data.date
+         *
+         */
+        buildHTML: function (data) {
+            return [
+                '<div class="post">',
+                    '<div class="logo"></div>',
+                    '<div class="post__author">', data.author, '</div>',
+                    '<div class="post__title">', data.title, '</div>',
+                    '<div class="post__text">', data.text, '</div>',
+                    '<div class="post__date">Date: ', data.author, '</div>',
+            ].join('');
+        }
+    };
+});

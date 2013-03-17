@@ -1,0 +1,9 @@
+.thread__separator
+{
+    border-top: 1px solid #ebedf0;
+    border-bottom: 1px solid #d0d7dd;
+    height: 2.5em;
+    background: -moz-linear-gradient(top, rgba(252,253,253,1) 0%, rgba(242,244,247,1) 100%);
+    background: -webkit-linear-gradient(top, rgba(252,253,253,1) 0%,rgba(242,244,247,1) 100%);
+    background: linear-gradient(to bottom, rgba(252,253,253,1) 0%,rgba(242,244,247,1) 100%);
+}

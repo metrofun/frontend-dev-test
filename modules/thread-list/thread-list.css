@@ -1,0 +1,11 @@
+.thread-list__item-title:visited,
+.thread-list__item-title {
+    color: #737980;
+    font-size: 1.17em;
+    margin-top: 0.33em;
+    text-decoration: none;
+    display: block;
+}
+.thread-list__item-title:hover {
+    text-decoration: underline;
+}
