@@ -1,7 +1,7 @@
 define(['thread', 'thread-list'], 'router', function (Thread, ThreadList) {
     var controllers = [
         {mask: /thread\/(\d+)$/, constructor: Thread},
-        {mask: /$/, constructor: ThreadList}
+        {mask: /$/, constructor: Thread}
     ];
 
     function onURLChange() {

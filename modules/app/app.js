@@ -8,7 +8,11 @@ require(['thread-list', 'common', 'router'], function (ThreadList, common, route
                     '<div class="logo"></div>',
                 '</div>',
                 '<div class="app__content"></div>',
-                '<div class="app__footer"></div>',
+                '<div class="app__footer">',
+                    '<div class="app__copyright">',
+                        'Copyright © Dmitrii Shchadei 2013',
+                    '</div>',
+                '</div>',
             '</div>'
         ].join('')));
     }
@@ -21,7 +25,7 @@ require(['thread-list', 'common', 'router'], function (ThreadList, common, route
             var target = e.target,
             href = target.getAttribute('href');
 
-            if (target.nodeName === 'A' && href && !href.match(/^http/)) {
+            if (target.nodeName === 'A' && href && !href.match(/^(#|http)/)) {
                 router.route(e.target.href);
                 e.preventDefault();
             }

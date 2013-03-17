@@ -18,7 +18,7 @@ define('post', function () {
                     '<div class="logo"></div>',
                     '<div class="post__author">', data.author, '</div>',
                     this.buildContentHTML(data),
-                    '<div class="post__date">Date: ', data.date, '</div>',
+                    data.date ? '<div class="post__date">Date: ' + data.date + '</div>':'',
                 '</div>'
             ].join('');
         },

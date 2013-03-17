@@ -14,14 +14,22 @@ define('api', function () {
             var xhr = new XMLHttpRequest(),
                 url = BASE + params.resource;
 
-            if (params.query) {
+            if (params.query && params.method !== 'POST') {
                 url += '?' + params.query;
             }
             xhr.open(params.method || 'GET', url, true);
             xhr.onload = function () {
                 params.success(JSON.parse(xhr.responseText));
             };
-            xhr.send();
+            if (params.method === 'POST') {
+                xhr.setRequestHeader(
+                    "Content-type",
+                    "application/x-www-form-urlencoded"
+                );
+                xhr.send(params.query);
+            } else {
+                xhr.send();
+            }
         }
     };
 });
