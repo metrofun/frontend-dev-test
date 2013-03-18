@@ -1,7 +1,7 @@
-define(['thread', 'thread-list'], 'router', function (Thread, ThreadList) {
+define('router', function () {
     var controllers = [
-        {mask: /thread\/(\d+)$/, constructor: Thread},
-        {mask: /$/, constructor: Thread}
+        {mask: /thread\/(\d+)$/, controller: 'thread'},
+        {mask: /$/, controller: 'thread-list'}
     ];
 
     function onURLChange() {
@@ -12,9 +12,12 @@ define(['thread', 'thread-list'], 'router', function (Thread, ThreadList) {
                 controller;
 
             if (match) {
-                controller = new controllerDefinition.constructor(
-                    match.slice(1)
-                );
+                require([controllerDefinition.controller], function (Controller) {
+                    console.log(href, controllerDefinition.controller);
+                    var controller = new Controller(
+                        match.slice(1)
+                    );
+                });
                 return true;
             }
         });

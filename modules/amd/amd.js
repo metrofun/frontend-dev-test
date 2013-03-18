@@ -1,5 +1,6 @@
 (function (global) {
-    var moduleDefinitions = {};
+    var moduleDefinitions = {},
+        pendingRequires = [];
 
     /**
      * @param {String} module name
@@ -9,12 +10,43 @@
     function createModule(name) {
         var definition = moduleDefinitions[name];
 
-        return definition.singleton = definition.factory.apply(
-            global,
-            definition.dependences.map(function (moduleName) {
-                return moduleDefinitions[moduleName].singleton || createModule(moduleName);
-            })
-        );
+        if (definition.dependences) {
+            global.require(definition.dependences, function () {
+                definition.singleton = definition.factory.apply(
+                    global,
+                    [].slice.call(arguments)
+                );
+                rerunPendingRequires();
+            });
+        }
+    }
+    function rerunPendingRequires() {
+        setTimeout(function () {
+            var length = pendingRequires.length,
+                pendingRequire;
+
+            while (length--) {
+                pendingRequire = pendingRequires.shift();
+                global.require(pendingRequire.dependences, pendingRequire.callback);
+            }
+        });
+    }
+    /**
+     * Fetch module from the server
+     */
+    function fetchModule(moduleName) {
+        var definition = moduleDefinitions[moduleName], js;
+        if (!(definition && definition.loaded)) {
+            js = document.createElement("script");
+
+            js.type = "text/javascript";
+            js.onload = rerunPendingRequires;
+            js.src = ['', 'modules', moduleName, moduleName].join('/') + '.js';
+
+            document.body.appendChild(js);
+
+            moduleDefinitions[moduleName] = {loaded: true};
+        }
     }
     /**
      * @params {Array} [dependences] Required module names
@@ -27,21 +59,36 @@
             name = args.pop(),
             dependences = args.pop() || [];
 
-        moduleDefinitions[name] = {
-            factory: callback,
-            dependences: dependences
-        };
+        moduleDefinitions[name].factory = callback;
+        moduleDefinitions[name].dependences  = dependences;
     };
-
     /**
      * @params {Array} dependences Required module names
      * @params {Function} callback Will be executed when all dependences
      */
     global.require = function (dependences, callback) {
-        setTimeout(function () {
-            callback.apply(global, dependences.map(function (moduleName) {
-                return moduleDefinitions[moduleName].singleton || createModule(moduleName);
-            }));
+        var resolvedDeps = [];
+
+        dependences.forEach(function (moduleName) {
+            var moduleDefinition = moduleDefinitions[moduleName];
+            if (moduleDefinition) {
+                if (moduleDefinition.hasOwnProperty('singleton')) {
+                    resolvedDeps.push(moduleDefinition.singleton);
+                } else {
+                    createModule(moduleName);
+                }
+            } else {
+                fetchModule(moduleName);
+            }
         });
+        if (resolvedDeps.length === dependences.length) {
+            callback.apply(global, resolvedDeps);
+        } else {
+            pendingRequires.push({
+                dependences: dependences,
+                callback: callback
+            });
+        }
     };
+
 })(window);

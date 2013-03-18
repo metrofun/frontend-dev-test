@@ -71,6 +71,6 @@ define(
                 });
             }
         };
-        return  Thread;
+        return Thread;
     }
 );
