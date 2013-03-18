@@ -13,7 +13,6 @@ define('router', function () {
 
             if (match) {
                 require([controllerDefinition.controller], function (Controller) {
-                    console.log(href, controllerDefinition.controller);
                     var controller = new Controller(
                         match.slice(1)
                     );
