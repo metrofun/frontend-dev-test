@@ -1,5 +1,6 @@
 (function (global) {
-    var moduleDefinitions = {},
+    var MODULES_BASE = '/frontend-dev-test',
+        moduleDefinitions = {},
         pendingRequires = [];
 
     /**
@@ -41,7 +42,7 @@
 
             js.type = "text/javascript";
             js.onload = rerunPendingRequires;
-            js.src = ['', 'modules', moduleName, moduleName].join('/') + '.js';
+            js.src = [MODULES_BASE, 'modules', moduleName, moduleName].join('/') + '.js';
 
             document.body.appendChild(js);
 
