@@ -5,7 +5,7 @@ define(['api', 'post'], 'thread-list', function (api, post) {
     };
     ThreadList.prototype = {
         onsuccess: function (response) {
-            var htmlTokens;
+            var htmlTokens = [];
 
             if (response && response.threads) {
                 htmlTokens = response.threads.map(function (thread) {

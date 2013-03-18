@@ -35,9 +35,7 @@ define(
             addSelf: function (posts) {
                 var htmlTokens = [
                     post.buildHTML(posts.pop()),
-                    '<div class="thread__separator">',
-                        '<a class="thread__answer" href="#reply-form">Write reply</a>',
-                    '</div>'
+                    '<div class="thread__separator"></div>'
                 ], replyFormElement;
 
                 htmlTokens = htmlTokens.concat(posts.map(function (postData) {
